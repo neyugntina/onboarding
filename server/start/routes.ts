@@ -29,7 +29,6 @@ Route.group(() => {
     Route.get('/:id', 'ItemsController.get')
     Route.post('/create', 'ItemsController.create')
     Route.post('/edit/:id/', 'ItemsController.edit')
-    // Route.get('/', 'ItemsController.edit')
-    // Route.get('/', 'ItemsController.delete')
+    Route.delete('/:id', 'ItemsController.delete')
   }).prefix('/items')
 }).prefix('/api')

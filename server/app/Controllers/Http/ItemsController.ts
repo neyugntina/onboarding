@@ -23,14 +23,15 @@ export default class ItemsController {
     item?.merge(body)
     return await item?.save()
   }
-  public async delete({ request }: HttpContextContract) {
+  public async delete({ request, response }: HttpContextContract) {
     let { id } = request.params()
-    try {
-      const iden = await (await Item.query()).find(id)
-      return (await Item.delete()).find(id)
-    } catch (e) {
-      console.error(e)
+    let item = await Item.find(id)
+
+    if (item != null) {
+      await item.delete()
+      return response.ok('Item deleted successfully')
     }
-    return (await Item.query()).find(id)
+
+    return response.badRequest(`Item with id ${id} not found`)
   }
 }
