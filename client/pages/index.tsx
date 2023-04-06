@@ -20,25 +20,27 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { GetAll, GetOne } from "@/components/GetAll";
+import { GetAll } from "@/components/client-calls";
 import { ListItem } from "@/components/list-item";
 import { RenderModal } from "@/components/get-one-modal";
 import { CreateButton } from "@/components/create-button";
+import { GetAllButton } from "@/components/get-all-button";
+import { EditButton } from "@/components/edit-button";
 
 export default function Home(this: any, {}) {
-  const [data, setData] = useState<any[]>([]);
+  // const [data, setData] = useState<any[]>([]);
 
-  const loadData = async () => {
-    setData(await GetAll());
-  };
+  // const loadData = async () => {
+  //   setData(await GetAll());
+  // };
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  // useEffect(() => {
+  //   loadData();
+  // }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const { getDisclosureProps, getButtonProps } = useDisclosure();
 
@@ -66,48 +68,19 @@ export default function Home(this: any, {}) {
 
   return (
     <ChakraProvider>
-      {/* <>
-        <Select
-          placeholder="Select"
-          onChange={(event) => {
-            console.log("Selected the ID", event.target.value);
-          }}
-        >
-          {data &&
-            data.map((d, i) => (
-              <option key={`item-${i}`} value={d.id}>
-                {d.name}
-              </option>
-            ))}
-        </Select>
-      </> */}
       <Tabs variant="enclosed">
         <TabList>
           <Tab>Get All</Tab>
-          <Tab>Get One</Tab>
+          <Tab>Edit/Delete</Tab>
           <Tab>Create</Tab>
         </TabList>
-
         <TabPanels>
           <TabPanel>
-            <Button colorScheme="teal" onClick={GetAll}>
-              Get All
-            </Button>
-            {data &&
-              data.map((d, i) => (
-                <ListItem
-                  key={`item-${i}`}
-                  name={d.name}
-                  description={d.description}
-                />
-              ))}
+            <GetAllButton/>
           </TabPanel>
           <TabPanel>
-            <Button {...buttonProps} colorScheme="teal">
-              Get One
-            </Button>
-            <Select
-              {...disclosureProps}
+            <EditButton/>
+            {/* <Select
               placeholder="Select"
               onChange={(event) => {
                 console.log("Selected the ID", event.target.value);
@@ -119,63 +92,13 @@ export default function Home(this: any, {}) {
                     {d.name}
                   </option>
                 ))}
-            </Select>
+            </Select> */}
           </TabPanel>
           <TabPanel>
-            <p>three!</p>
+            <CreateButton />
           </TabPanel>
         </TabPanels>
       </Tabs>
-      {/* <Grid
-        templateAreas={`"header header"
-                  "nav main"`}
-        gridTemplateRows={"50px 1fr 30px"}
-        gridTemplateColumns={"150px 1fr"}
-        h="200px"
-        gap="1"
-        color="blackAlpha.700"
-        fontWeight="bold"
-      >
-        <GridItem pl="2" bg="orange.300" area={"header"}>
-          <Center>Items in a list</Center>
-        </GridItem>
-        <GridItem pl="2" bg="papayawhip" area={"nav"}>
-          <Stack direction="column" spacing={2} align="center">
-            <Text>Buttons</Text>
-            <Button colorScheme="teal" onClick={GetAll}>
-              Get All
-            </Button>
-            <Button {...buttonProps} colorScheme="teal">
-              Get One
-            </Button>
-            <CreateButton name={""} description={""}/>
-          </Stack>
-        </GridItem>
-        <GridItem pl="2" bg="white.300" area={"main"}>
-          {data &&
-            data.map((d, i) => (
-              <ListItem
-                key={`item-${i}`}
-                name={d.name}
-                description={d.description}
-              />
-            ))}
-          <Select
-            {...disclosureProps}
-            placeholder="Select"
-            onChange={(event) => {
-              console.log("Selected the ID", event.target.value);
-            }}
-          >
-            {data &&
-              data.map((d, i) => (
-                <option key={`item-${i}`} value={d.id}>
-                  {d.name}
-                </option>
-              ))}
-          </Select>
-        </GridItem>
-      </Grid> */}
     </ChakraProvider>
   );
 }

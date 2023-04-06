@@ -1,32 +1,47 @@
-import { Button, Input, Text, useDisclosure } from "@chakra-ui/react";
-import { FC } from "react";
-import { create } from "./GetAll";
+import { Button, Input, VStack } from "@chakra-ui/react";
+import { FC, useState } from "react";
+import { create } from "./client-calls";
 
-type CreateButtonProps = {
-  name: string;
-  description: string;
-};
+// type CreateButtonProps = {
+//   name: string;
+//   description: string;
+// };
 
-export const CreateButton: FC<CreateButtonProps> = ({ name, description }) => {
-  const { getDisclosureProps, getButtonProps } = useDisclosure();
+export const CreateButton = () => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const handleName = (event: any) => setName(event.target.value);
+  const handleDescription = (event: any) => setDescription(event.target.value);
+  console.log("client:", name, description);
 
-  const buttonProps = getButtonProps();
-  const disclosureProps = getDisclosureProps();
   return (
     <>
-      <Button {...buttonProps} colorScheme="teal" onClick={async (event) => {
-        event.preventDefault();
-        await create({
-            name: name
-        },
-        {description: description})
-      }}>
-        Create
-      </Button>
-      <Input {...disclosureProps} variant="outline" placeholder="name" />
-      <Input {...disclosureProps} variant="outline" placeholder="description" />
-      {name}
-      <i>{description}</i>
+      <form
+        onSubmit={async (event) => {
+          event.preventDefault();
+          await create(name, description);
+        }}
+      >
+        <VStack>
+          <label>Create an Item!</label>
+          <Input
+            variant="outline"
+            onChange={handleName}
+            value={name}
+            placeholder="name"
+          />
+          <Input
+            variant="outline"
+            onChange={handleDescription}
+            value={description}
+            placeholder="description"
+          />
+          <Button type="submit" colorScheme="teal">
+            {" "}
+            Create
+          </Button>
+        </VStack>
+      </form>
     </>
   );
 };
